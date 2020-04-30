@@ -1,0 +1,13 @@
+.xo-field{
+    border: solid 4px black;
+    margin: auto;
+    margin-top: 300px;
+}
+.xo{
+    height: 100px;
+    width: 100px;
+    font-size: 50px;
+    text-align: center;
+    border: solid 2px black;
+    font-family: Arial, Helvetica, sans-serif;
+}
