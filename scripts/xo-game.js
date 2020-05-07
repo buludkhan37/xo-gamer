@@ -1,84 +1,67 @@
 let table = document.getElementById('00');
+let x = "X";
+let o = "O";
 table.onclick = function (event) {
-    if (event.target.className != "xo" || event.target.innerHTML == "O" || event.target.innerHTML == "X" || won() || loose()) return;
-    event.target.innerHTML = "X";
+    let target = event.target;
+    if (target.className != "xo" || target.innerHTML != "" || won(x) || won(o)) return;
+    target.innerHTML = x;
 
-    
-   
+    if (x == won(x)){
+        console.log('x Win');
+        return;
+    }
+
+    if (draw()){
+        console.log('Draw');
+        return;
+    }
+
     while (true) {
         let x = random(3);
         let y = random(3);
-        let newId = x + "_" + y; 
-        console.log(document.getElementById(newId));
+        let newId = x + "_" + y;
 
         if (document.getElementById(newId).innerHTML != "") continue;
-        document.getElementById(newId).innerHTML = "O";
+        document.getElementById(newId).innerHTML = o;
         break;
     }
 
-
+    if (o == won(o)){
+        console.log('o Win');
+        return;
+    }
 
 }
 function random(max) {
     return Math.floor(Math.random() * max);
 }
-function won(){
-    if ( table.rows[0].cells[0].innerHTML == "X" 
-        && table.rows[0].cells[1].innerHTML == "X" 
-        && table.rows[0].cells[2].innerHTML == "X" 
-        || table.rows[1].cells[0].innerHTML == "X" 
-        && table.rows[1].cells[1].innerHTML == "X" 
-        && table.rows[1].cells[2].innerHTML == "X" 
-        || table.rows[2].cells[0].innerHTML == "X" 
-        && table.rows[2].cells[1].innerHTML == "X" 
-        && table.rows[2].cells[2].innerHTML == "X" 
-        || table.rows[0].cells[0].innerHTML == "X" 
-        && table.rows[1].cells[0].innerHTML == "X" 
-        && table.rows[2].cells[0].innerHTML == "X" 
-        || table.rows[0].cells[1].innerHTML == "X" 
-        && table.rows[1].cells[1].innerHTML == "X" 
-        && table.rows[2].cells[1].innerHTML == "X" 
-        || table.rows[0].cells[2].innerHTML == "X" 
-        && table.rows[1].cells[2].innerHTML == "X" 
-        && table.rows[2].cells[2].innerHTML == "X" 
-        || table.rows[0].cells[0].innerHTML == "X" 
-        && table.rows[1].cells[1].innerHTML == "X" 
-        && table.rows[2].cells[2].innerHTML == "X" 
-        || table.rows[2].cells[0].innerHTML == "X" 
-        && table.rows[1].cells[1].innerHTML == "X" 
-        && table.rows[0].cells[2].innerHTML == "X") return true;
+function won(str){
+    if ( table.rows[0].cells[0].innerHTML == str 
+        && table.rows[1].cells[1].innerHTML == str 
+        && table.rows[2].cells[2].innerHTML == str 
+        || table.rows[2].cells[0].innerHTML == str 
+        && table.rows[1].cells[1].innerHTML == str 
+        && table.rows[0].cells[2].innerHTML == str) return str;
     
-    return false;
-
-}
-function loose(){
-    if ( table.rows[0].cells[0].innerHTML == "O" 
-        && table.rows[0].cells[1].innerHTML == "O" 
-        && table.rows[0].cells[2].innerHTML == "O" 
-        || table.rows[1].cells[0].innerHTML == "O" 
-        && table.rows[1].cells[1].innerHTML == "O" 
-        && table.rows[1].cells[2].innerHTML == "O" 
-        || table.rows[2].cells[0].innerHTML == "O" 
-        && table.rows[2].cells[1].innerHTML == "O" 
-        && table.rows[2].cells[2].innerHTML == "O" 
-        || table.rows[0].cells[0].innerHTML == "O" 
-        && table.rows[1].cells[0].innerHTML == "O" 
-        && table.rows[2].cells[0].innerHTML == "O" 
-        || table.rows[0].cells[1].innerHTML == "O" 
-        && table.rows[1].cells[1].innerHTML == "O" 
-        && table.rows[2].cells[1].innerHTML == "O" 
-        || table.rows[0].cells[2].innerHTML == "O" 
-        && table.rows[1].cells[2].innerHTML == "O" 
-        && table.rows[2].cells[2].innerHTML == "O" 
-        || table.rows[0].cells[0].innerHTML == "O" 
-        && table.rows[1].cells[1].innerHTML == "O" 
-        && table.rows[2].cells[2].innerHTML == "O" 
-        || table.rows[2].cells[0].innerHTML == "O" 
-        && table.rows[1].cells[1].innerHTML == "O" 
-        && table.rows[0].cells[2].innerHTML == "O") return true ;
-    
-    return false;
+    for (let i = 0; i < 3; i++){
+        if (table.rows[i].cells[0].innerHTML == str 
+        && table.rows[i].cells[1].innerHTML == str 
+        && table.rows[i].cells[2].innerHTML == str 
+        || table.rows[0].cells[i].innerHTML == str 
+        && table.rows[1].cells[i].innerHTML == str 
+        && table.rows[2].cells[i].innerHTML == str) return str;
+    }
 }
 function draw(){
-   
+   for (let i = 0; i < 3; i++){
+      for (let j = 0; j < 3; j++){
+          if (table.rows[i].cells[j].innerHTML != ""){
+              continue;
+          }
+          else {
+              return;
+          }
+      } 
+   }
+   return true;
 }
