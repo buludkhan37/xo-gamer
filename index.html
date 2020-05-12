@@ -4,24 +4,13 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles/xo-style.css">
   </head>
-  <body>
-    <table class="xo-field" id="00">
-      <tr>
-        <td class="xo" id="0_0"></td>
-        <td class="xo" id="0_1"></td>
-        <td class="xo" id="0_2"></td>
-      </tr>
-      <tr>
-        <td class="xo" id="1_0"></td>
-        <td class="xo" id="1_1"></td>
-        <td class="xo" id="1_2"></td>
-      </tr>
-      <tr>
-        <td class="xo" id="2_0"></td>
-        <td class="xo" id="2_1"></td>
-        <td class="xo" id="2_2"></td>
-      </tr>
-    </table>
+  <body background="XO.jpg">
+    <form name="main" class="xo-form">
+      <input type="button" class="xo-button" id="buttonX" value="Game for X">
+      <input type="button" class="xo-button" id="buttonO" value="Game for O">
+    </form>
+    <div class="xo-game">
+    </div>
     <script src="scripts/xo-game.js"></script>
   </body>
 </html>
