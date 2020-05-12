@@ -17,13 +17,13 @@ function tableOnClick(event) {
 
 
     if (xoSettings.playerSide == won(xoSettings.playerSide)) {
-        result("YOU WIN");
+        result("YOU WON");
         creatXOButton();
         return;
     }
 
     if (draw()) {
-        result("IT'S DRAW");
+        result("IT is DRAW");
         creatXOButton();
         return;
     }
@@ -134,7 +134,8 @@ function creatXOButton() {
     buttXO.setAttribute("type", "button");
     buttXO.setAttribute("value", "New Game");
     buttXO.setAttribute("id", "newGame");
-    buttXO.className = "xo-button";
+    buttXO.setAttribute("class", "newGame");
+    buttXO.className = "newGame";
     table.after(buttXO);
     buttXO.addEventListener("click", function () {
         document.querySelector(".xo-form").style.visibility = "visible";
