@@ -5,24 +5,40 @@ let xoSettings = {
     botSide: "O",
 }
 let table;
+
 document.getElementById("buttonX").addEventListener("click", choice);
 document.getElementById("buttonO").addEventListener("click", choice);
+
 function tableOnClick(event) {
     let target = event.target;
+
     if (target.className != "xo" || target.innerHTML != "" || won(xoSettings.playerSide) || won(xoSettings.botSide)) return;
     target.innerHTML = xoSettings.playerSide;
 
 
     if (xoSettings.playerSide == won(xoSettings.playerSide)) {
-        console.log(xoSettings.playerSide + '\tWin');
+        result("YOU WIN");
+        creatXOButton();
         return;
     }
 
     if (draw()) {
-        console.log('Draw');
+        result("IT'S DRAW");
+        creatXOButton();
         return;
     }
 
+    drowBot();
+
+    if (xoSettings.botSide == won(xoSettings.botSide)) {
+        result("YOU LOSE");
+        creatXOButton();
+        return;
+    }
+
+}
+
+function drowBot() {
     while (true) {
         let x = random(3);
         let y = random(3);
@@ -31,12 +47,6 @@ function tableOnClick(event) {
         table.rows[x].cells[y].innerHTML = xoSettings.botSide;
         break;
     }
-
-    if (xoSettings.botSide == won(xoSettings.botSide)) {
-        console.log(xoSettings.botSide + '\tWin');
-        return;
-    }
-
 }
 
 function random(max) {
@@ -76,8 +86,21 @@ function draw() {
 }
 
 function choice(event) {
+    if (table) {
+        table.remove();
+    }
+
+    if (document.getElementById("newGame")) {
+        document.getElementById("newGame").remove();
+    }
+
+    if (document.getElementById("result")) {
+        document.getElementById("result").remove();
+    }
+
     table = document.createElement('table');
-    table.addEventListener("click",tableOnClick);
+    table.addEventListener("click", tableOnClick);
+
     for (let i = 0; i < 3; i++) {
         let tr = document.createElement("tr");
         table.append(tr);
@@ -88,23 +111,41 @@ function choice(event) {
             td.className = "xo";
         }
     }
+
     table.className = "xo-field";
     let game = document.querySelector(".xo-game");
     game.append(table);
     document.querySelector(".xo-form").style.visibility = "hidden";
+
     let target = event.target;
-    if (target.id == "buttonX"){
+    if (target.id == "buttonX") {
         xoSettings.playerSide = "X";
         xoSettings.botSide = "O";
-    }
-    else if (target.id = "buttonO"){
+    } else if (target.id = "buttonO") {
         xoSettings.playerSide = "O";
         xoSettings.botSide = "X";
-        let x = random(3);
-        let y = random(3);
-
-        if (table.rows[x].cells[y].innerHTML != "");
-        table.rows[x].cells[y].innerHTML = xoSettings.botSide;
+        drowBot();
     }
-    
+
 }
+
+function creatXOButton() {
+    let buttXO = document.createElement("input");
+    buttXO.setAttribute("type", "button");
+    buttXO.setAttribute("value", "New Game");
+    buttXO.setAttribute("id", "newGame");
+    buttXO.className = "xo-button";
+    table.after(buttXO);
+    buttXO.addEventListener("click", function () {
+        document.querySelector(".xo-form").style.visibility = "visible";
+    });
+}
+
+function result(message) {
+    let result = document.createElement("div");
+    result.setAttribute("id", "result");
+    result.setAttribute("class", "resXO");
+    result.innerHTML = message;
+    table.after(result);
+}
+
