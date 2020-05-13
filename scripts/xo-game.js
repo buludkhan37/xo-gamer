@@ -1,3 +1,6 @@
+/*
+Все еще хуево проработаны стили (например, зеленый цвет окна результата в случае поражения - залупа)
+*/
 let xoSettings = {
     height: 3,
     width: 3,
@@ -18,24 +21,25 @@ function tableOnClick(event) {
 
     if (xoSettings.playerSide == won(xoSettings.playerSide)) {
         result("YOU WON");
-        creatXOButton();
         return;
     }
 
     if (draw()) {
-        result("IT is DRAW");
-        creatXOButton();
+        result("DRAW");
         return;
     }
 
     drowBot();
 
-    if (xoSettings.botSide == won(xoSettings.botSide)) {
-        result("YOU LOSE");
-        creatXOButton();
+    if (draw()) {
+        result("DRAW");
         return;
     }
 
+    if (xoSettings.botSide == won(xoSettings.botSide)) {
+        result("YOU LOSE");
+        return;
+    }
 }
 
 function drowBot() {
@@ -86,26 +90,28 @@ function draw() {
 }
 
 function choice(event) {
+    let newGame = document.getElementById("newGame");
+    let res = document.getElementById("result");
     if (table) {
         table.remove();
     }
 
-    if (document.getElementById("newGame")) {
-        document.getElementById("newGame").remove();
+    if (newGame) {
+        newGame.remove();
     }
 
-    if (document.getElementById("result")) {
-        document.getElementById("result").remove();
+    if (res) {
+        res.remove();
     }
 
     table = document.createElement('table');
     table.addEventListener("click", tableOnClick);
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < xoSettings.height; i++) {
         let tr = document.createElement("tr");
         table.append(tr);
 
-        for (let j = 0; j < 3; j++) {
+        for (let j = 0; j < xoSettings.width; j++) {
             let td = document.createElement("td");
             tr.append(td);
             td.className = "xo";
@@ -129,13 +135,12 @@ function choice(event) {
 
 }
 
-function creatXOButton() {
+function createXOButton() {
     let buttXO = document.createElement("input");
     buttXO.setAttribute("type", "button");
     buttXO.setAttribute("value", "New Game");
     buttXO.setAttribute("id", "newGame");
-    buttXO.setAttribute("class", "newGame");
-    buttXO.className = "newGame";
+    buttXO.className = "newGame";           
     table.after(buttXO);
     buttXO.addEventListener("click", function () {
         document.querySelector(".xo-form").style.visibility = "visible";
@@ -148,5 +153,6 @@ function result(message) {
     result.setAttribute("class", "resXO");
     result.innerHTML = message;
     table.after(result);
+    createXOButton();
 }
 
